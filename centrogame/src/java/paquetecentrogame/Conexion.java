@@ -85,6 +85,33 @@ public class Conexion {
             return "no se ha encontrado";
         }
     }
-
     
+    public String buscarjuego(String juego) {
+        try {
+            String consulta = "SELECT * FROM juegos WHERE nombreJuego = ?";
+            try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
+                preparedStatement.setString(1, juego);
+                try (ResultSet resultado = preparedStatement.executeQuery()) {
+                    return resultado;
+                }
+            }
+        } catch (SQLException e) {
+            return "no se ha encontrado";
+        }
+    }
+    public String total(String tipo) {
+        try {
+            String consulta = "SELECT * FROM " + tipo;
+            try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
+                preparedStatement.setString(1, juego);
+                try (ResultSet resultado = preparedStatement.executeQuery()) {
+                    return resultado;
+                }
+            }
+        } catch (SQLException e) {
+            return "no se ha encontrado";
+        }
+    }
+
+
 }
