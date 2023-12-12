@@ -116,7 +116,6 @@ public class Conexion {
             e.printStackTrace();
             throw new SQLException("Error en la consulta buscarjuego: " + e.getMessage(), e);
         }
-        return tabla;
     }
 
     public String total(String tipo) throws SQLException {
@@ -154,6 +153,5 @@ public class Conexion {
             e.printStackTrace();
             throw new SQLException("Error en la consulta total: " + e.getMessage(), e);
         }
-        return tabla;
     }
 }
