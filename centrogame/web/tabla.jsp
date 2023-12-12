@@ -3,6 +3,10 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %> 
 <%@ page import="paquetecentrogame.Conexion"%> 
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.logging.Level" %>
+<%@ page import="java.util.logging.Logger" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,32 +22,16 @@
             String juego = request.getParameter("juego"); 
             Conexion miconexion = new Conexion();
             miconexion.Conectar();
-            ResultSet resultado;
+            ResultSet resultado = null;
             String tabla = "";
-            if(juego!=null){
-                resultado = miconexion.buscarjuego(juego);   
-            }else if(tipodeconsulta.equals("consultas")){
-                resultado = miconexion.total(tipodeconsulta); 
-            }else if(tipodeconsulta.equals("total-juegos")){
-                resultado = miconexion.total(tipodeconsulta); 
-            }else if(tipodeconsulta.equals("total")){
-                resultado = miconexion.total(tipodeconsulta); 
-            }else{
+            if (juego != null) {
+                tabla = miconexion.buscarjuego(juego);
+            } else if (tipodeconsulta.equals("consolas") || tipodeconsulta.equals("total-juegos") || tipodeconsulta.equals("total")) {
+                tabla = miconexion.total(tipodeconsulta);
+            } else {
                 response.sendRedirect("index.jsp");
             }
-            int columnCount = resultSet.getMetaData().getColumnCount();
-            if(columnCount!=null){
-                while (resultSet.next()) {
-                    tabla+="<tr>";
-                    for (int i = 1; i <= columnCount; i++) {
-                        tabla =+ "<td>" + resultSet.getString(i) + "</td>";
-                    }
-                    tabla+="</tr>";
-                }
-            }else{
-                tabla = "no se ha encontrado ningun resultado a la busqueda";
-            }
-            resultSet.close();
+            miconexion.desConectar();
         %>
     </head>
     <body>

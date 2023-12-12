@@ -86,32 +86,74 @@ public class Conexion {
         }
     }
     
-    public String buscarjuego(String juego) {
+    public String buscarjuego(String juego) throws SQLException {
+        String tabla = "";
         try {
             String consulta = "SELECT * FROM juegos WHERE nombreJuego = ?";
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
                 preparedStatement.setString(1, juego);
-                try (ResultSet resultado = preparedStatement.executeQuery()) {
-                    return resultado;
+                ResultSet resultado = preparedStatement.executeQuery();
+
+                if (resultado != null) {
+                    int columnCount = resultado.getMetaData().getColumnCount();
+                    if (columnCount > 0) {
+                        while (resultado.next()) {
+                            tabla += "<tr>";
+                            for (int i = 1; i <= columnCount; i++) {
+                                tabla += "<td>" + resultado.getString(i) + "</td>";
+                            }
+                            tabla += "</tr>";
+                        }
+                    } else {
+                        tabla = "no se ha encontrado ningún resultado a la búsqueda";
+                    }
+                } else {
+                    tabla = "Error en la consulta";
                 }
+                return tabla;
             }
         } catch (SQLException e) {
-            return "no se ha encontrado";
+            e.printStackTrace();
+            throw new SQLException("Error en la consulta buscarjuego: " + e.getMessage(), e);
         }
+        return tabla;
     }
-    public String total(String tipo) {
+
+    public String total(String tipo) throws SQLException {
+        String consulta = "";
+        String tabla = "";
+        if (tipo.equals("total-juegos")) {
+            consulta = "SELECT * FROM juegos";
+        } else if (tipo.equals("total")) {
+            consulta = "SELECT * FROM juegos INNER JOIN consolas ON juegos.idConsola = consolas.idConsola";
+        } else if (tipo.equals("consolas")) {
+            consulta = "SELECT * FROM consolas";
+        }
         try {
-            String consulta = "SELECT * FROM " + tipo;
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
-                preparedStatement.setString(1, juego);
-                try (ResultSet resultado = preparedStatement.executeQuery()) {
-                    return resultado;
+                ResultSet resultado = preparedStatement.executeQuery();
+                if (resultado != null) {
+                    int columnCount = resultado.getMetaData().getColumnCount();
+                    if (columnCount > 0) {
+                        while (resultado.next()) {
+                            tabla += "<tr>";
+                            for (int i = 1; i <= columnCount; i++) {
+                                tabla += "<td>" + resultado.getString(i) + "</td>";
+                            }
+                            tabla += "</tr>";
+                        }
+                    } else {
+                        tabla = "no se ha encontrado ningún resultado a la búsqueda";
+                    }
+                } else {
+                    tabla = "Error en la consulta";
                 }
+                return tabla;
             }
         } catch (SQLException e) {
-            return "no se ha encontrado";
+            e.printStackTrace();
+            throw new SQLException("Error en la consulta total: " + e.getMessage(), e);
         }
+        return tabla;
     }
-
-
 }
