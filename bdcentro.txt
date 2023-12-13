@@ -149,3 +149,15 @@ VALUES
 (1, 'Demon\'s Souls', 'Bluepoint Games', 'Aventura', 92, 69.99, 30),
 (2, 'Halo Infinite', '343 Industries', 'Disparos', 85, 59.99, 40),
 (3, 'The Legend of Zelda: Breath of the Wild', 'Nintendo', 'Aventura', 97, 59.99, 80);
+
+
+-- Elimina el constraint existente
+ALTER TABLE juegos DROP FOREIGN KEY juegos_ibfk_1;
+
+-- Añade un nuevo constraint con las opciones deseadas
+ALTER TABLE juegos
+ADD CONSTRAINT juegos_ibfk_1 
+FOREIGN KEY (idConsola) 
+REFERENCES consolas (idConsola)
+ON DELETE SET NULL
+ON UPDATE CASCADE;

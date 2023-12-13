@@ -108,27 +108,29 @@ public class Conexion {
                     int columnCount = resultado.getMetaData().getColumnCount();
                     if (columnCount > 0) {
                         if(resultado.next()){
+                            tabla += "<table>";
                             do {
                                 tabla += "<tr>";
                                 for (int i = 1; i <= columnCount; i++) {
-                                    tabla += "<td>" + resultado.getString(i) + "</td>";
+                                    tabla += "<td> " + resultado.getString(i) + " </td>";
                                 }
                                 if(tipo.equals("total")){
                                     tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
                                     tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
                                 }
-                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
+                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</button></td>";
                                 tabla += "</tr>";
                             }while((resultado.next()));
+                            tabla += "</table>";
                         }
                         else{
-                            tabla += "no se ha encontrado ningún resultado a la búsqueda";
+                            tabla = "no se ha encontrado ningún resultado a la búsqueda";
                         }
                     } else {
-                        tabla += "no hay columnas";
+                        tabla = "no hay columnas";
                     }
                 } else {
-                    tabla += "Error en la consulta";
+                    tabla = "Error en la consulta";
                 }
                 return tabla;
             }
