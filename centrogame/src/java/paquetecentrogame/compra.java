@@ -52,19 +52,10 @@ public class compra extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>" + resultado + "</h1>");
+            out.println("<a href='tabla.jsp?consulta=" + arrayboton[1] + "'>seguir comprando</a>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

@@ -98,8 +98,7 @@ public class Conexion {
         } else if (tipo.equals("consolas")) {
             consulta = "SELECT * FROM consolas";
         }else{
-            consulta = "SELECT * FROM juegos";
-            //consulta = "SELECT * FROM juegos WHERE nombreJuego=" + tipo; 
+            consulta = "SELECT * FROM juegos WHERE nombreJuego=" + tipo; 
         }
         try {
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
@@ -117,8 +116,10 @@ public class Conexion {
                                 if(tipo.equals("total")){
                                     tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
                                     tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
+                                }else{
+                                    tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</button></td>";
                                 }
-                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</button></td>";
+                                
                                 tabla += "</tr>";
                             }while((resultado.next()));
                             tabla += "</table>";
@@ -144,10 +145,10 @@ public class Conexion {
 
         if (tipo.equals("consolas")) {
             consulta = "SELECT unidadesDisponibles FROM consolas WHERE idConsola = ?";
-            delete = "DELETE FROM consolas WHERE idConsola=?";
+            delete = "UPDATE consolas set unidadesDisponibles = unidadesDisponibles - 1 WHERE idConsola=?";
         } else {
             consulta = "SELECT unidadesDisponibles FROM juegos WHERE idJuego = ?";
-            delete = "DELETE FROM juegos WHERE idJuego=?";
+            delete = "UPDATE juegos set unidadesDisponibles = unidadesDisponibles -1 WHERE idJuego=?";
         }
 
         int cantidad = 0;
@@ -177,7 +178,7 @@ public class Conexion {
             }
         }
 
-        return "No hay unidades disponibles para eliminar";
+        return "No hay unidades disponibles para poder comprar";
     }
 
 }

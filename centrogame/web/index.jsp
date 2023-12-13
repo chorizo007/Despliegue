@@ -8,6 +8,7 @@
         <% 
             String botoadmin = "";
             String inputjuego = "";
+            String selectjuego = "";
             session = request.getSession(false);
             if (session == null || session.getAttribute("tipo") == null) {
                 response.sendRedirect("login.jsp");
@@ -23,6 +24,7 @@
             if (tipodeconsulta != null) {
                 if (tipodeconsulta.equals("juegos")) {
                     inputjuego = "Inserte el nombre del juego a buscar <input name='nombrejuego'>";
+                    selectjuego = "<option value='juegos' selected>buscar un juego</option>";
                 } else {
                     response.sendRedirect("tabla.jsp?consulta=" + tipodeconsulta);
                 }
@@ -41,19 +43,23 @@
         <%=botoadmin%>
         <br>
         <br>
-        <a href="cerrar">cerrar sesion</a>
 
         <form action="index.jsp" method="post">
             <select name="tipo-de-consulta">
-                <option value="consolas" selected>consultar informacion sobre las consolas</option>
-                <option value="juegos" >consultar el catalogo de un juego</option>
+                <%=selectjuego%>
+                <option value="consolas">consolas</option>
+                <option value="juegos">buscar un juego</option>
                 <option value="total-juegos">consultar el total de juegos</option> 
-                <option value="total">constar todos los produsctos </option>
+                <option value="total">todos los productos</option>
             </select>
             <br>
             <%=inputjuego%>
             <button type="submit" name='boton' value='consultar'>enviar</button>
         </form>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <a href="cerrar">cerrar sesion</a>
     </body>
 </html>
