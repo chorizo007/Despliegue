@@ -19,7 +19,8 @@ public class Conexion {
     public Conexion() {
         usuario = "daw2";
         passwordc = "1234";
-        ruta = "jdbc:mysql://localhost:3306/centrogame";
+        //"jdbc:mysql://localhost:3306/centrogame";
+        ruta = "jdbc:mysql://192.168.1.144:3306/centrogame";
     }
 
     public void Conectar() {
@@ -86,37 +87,6 @@ public class Conexion {
         }
     }
     
-    public String buscarjuego(String juego) throws SQLException {
-        String tabla = "";
-        try {
-            String consulta = "SELECT * FROM juegos WHERE nombreJuego = ?";
-            try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
-                preparedStatement.setString(1, juego);
-                ResultSet resultado = preparedStatement.executeQuery();
-
-                if (resultado != null) {
-                    int columnCount = resultado.getMetaData().getColumnCount();
-                    if (columnCount > 0) {
-                        while (resultado.next()) {
-                            tabla += "<tr>";
-                            for (int i = 1; i <= columnCount; i++) {
-                                tabla += "<td>" + resultado.getString(i) + "</td>";
-                            }
-                            tabla += "</tr>";
-                        }
-                    } else {
-                        tabla = "no se ha encontrado ningún resultado a la búsqueda";
-                    }
-                } else {
-                    tabla = "Error en la consulta";
-                }
-                return tabla;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en la consulta buscarjuego: " + e.getMessage(), e);
-        }
-    }
 
     public String total(String tipo) throws SQLException {
         String consulta = "";
@@ -127,6 +97,8 @@ public class Conexion {
             consulta = "SELECT * FROM juegos INNER JOIN consolas ON juegos.idConsola = consolas.idConsola";
         } else if (tipo.equals("consolas")) {
             consulta = "SELECT * FROM consolas";
+        }else{
+            consulta = "SELECT * FROM juegos WHERE nombreJuego = " + tipo; // cuando es un juego el tipo es el nombre del juego
         }
         try {
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
@@ -139,6 +111,11 @@ public class Conexion {
                             for (int i = 1; i <= columnCount; i++) {
                                 tabla += "<td>" + resultado.getString(i) + "</td>";
                             }
+                            if(tipo.equals("total")){
+                                tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
+                                tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
+                            }
+                            tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
                             tabla += "</tr>";
                         }
                     } else {
@@ -154,4 +131,46 @@ public class Conexion {
             throw new SQLException("Error en la consulta total: " + e.getMessage(), e);
         }
     }
+    public String eliminar(String codigo, String tipo) throws SQLException {
+        String consulta = "";
+        String delete = "";
+
+        if (tipo.equals("consolas")) {
+            consulta = "SELECT unidadesDisponibles FROM consolas WHERE idConsola = ?";
+            delete = "DELETE FROM consolas WHERE idConsola=?";
+        } else {
+            consulta = "SELECT unidadesDisponibles FROM juegos WHERE idJuego = ?";
+            delete = "DELETE FROM juegos WHERE idJuego=?";
+        }
+
+        int cantidad = 0;
+
+        try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
+            preparedStatementConsulta.setString(1, codigo);
+            ResultSet resultado = preparedStatementConsulta.executeQuery();
+
+            if (resultado.next()) {
+                cantidad = resultado.getInt(1);
+            } else {
+                return "Error en la consulta";
+            }
+        }
+
+        if (cantidad > 0) {
+            try (PreparedStatement preparedStatementDelete = miConexion.prepareStatement(delete)) {
+                preparedStatementDelete.setString(1, codigo);
+
+                int filasAfectadas = preparedStatementDelete.executeUpdate();
+
+                if (filasAfectadas > 0) {
+                    return "Realizado con éxito";
+                } else {
+                    return "Error al realizar la petición";
+                }
+            }
+        }
+
+        return "No hay unidades disponibles para eliminar";
+    }
+
 }
