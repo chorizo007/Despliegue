@@ -24,18 +24,20 @@
             miconexion.Conectar();
             ResultSet resultado = null;
             String tabla = "";
+            
             if (juego != null) {
                 tipodeconsulta = juego;
-            } else if (tipodeconsulta.equals("consolas") || tipodeconsulta.equals("total-juegos") || tipodeconsulta.equals("total") || juego!=null) {
+            }
+            if (tipodeconsulta.equals("consolas") || tipodeconsulta.equals("total-juegos") || tipodeconsulta.equals("total") || juego!=null) {
                 tabla = miconexion.total(tipodeconsulta);
-            } else {
+            }else {
                 response.sendRedirect("index.jsp");
             }
             miconexion.desConectar();
         %>
     </head>
     <body>
-        <h1>RESUTLADO : </h1>
+        <h1>RESULTADO : </h1>
         <form action="compra" method="post">
             <%=tabla %>
         </form>

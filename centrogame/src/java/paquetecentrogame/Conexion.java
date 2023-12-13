@@ -90,7 +90,7 @@ public class Conexion {
 
     public String total(String tipo) throws SQLException {
         String consulta = "";
-        String tabla = "holaaa";
+        String tabla = "";
         if (tipo.equals("total-juegos")) {
             consulta = "SELECT * FROM juegos";
         } else if (tipo.equals("total")) {
@@ -98,7 +98,8 @@ public class Conexion {
         } else if (tipo.equals("consolas")) {
             consulta = "SELECT * FROM consolas";
         }else{
-            consulta = "SELECT * FROM juegos WHERE nombreJuego = " + tipo; // cuando es un juego el tipo es el nombre del juego
+            consulta = "SELECT * FROM juegos";
+            //consulta = "SELECT * FROM juegos WHERE nombreJuego=" + tipo; 
         }
         try {
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
@@ -106,29 +107,33 @@ public class Conexion {
                 if (resultado != null) {
                     int columnCount = resultado.getMetaData().getColumnCount();
                     if (columnCount > 0) {
-                        while (resultado.next()) {
-                            tabla += "<tr>";
-                            for (int i = 1; i <= columnCount; i++) {
-                                tabla += "<td>" + resultado.getString(i) + "</td>";
-                            }
-                            if(tipo.equals("total")){
-                                tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
-                                tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
-                            }
-                            tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
-                            tabla += "</tr>";
+                        if(resultado.next()){
+                            do {
+                                tabla += "<tr>";
+                                for (int i = 1; i <= columnCount; i++) {
+                                    tabla += "<td>" + resultado.getString(i) + "</td>";
+                                }
+                                if(tipo.equals("total")){
+                                    tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
+                                    tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
+                                }
+                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
+                                tabla += "</tr>";
+                            }while((resultado.next()));
+                        }
+                        else{
+                            tabla += "no se ha encontrado ningún resultado a la búsqueda";
                         }
                     } else {
-                        tabla = "no se ha encontrado ningún resultado a la búsqueda";
+                        tabla += "no hay columnas";
                     }
                 } else {
-                    tabla = "Error en la consulta";
+                    tabla += "Error en la consulta";
                 }
                 return tabla;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Error en la consulta total: " + e.getMessage(), e);
+             return e.getMessage();
         }
     }
     public String eliminar(String codigo, String tipo) throws SQLException {

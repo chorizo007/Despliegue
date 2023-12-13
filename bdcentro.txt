@@ -132,3 +132,20 @@ CREATE USER 'daw2'@'%' IDENTIFIED BY 'daw2';
 
 -- Otorga todos los privilegios al usuario 'daw2' en todas las bases de datos
 GRANT ALL PRIVILEGES ON *.* TO 'daw2'@'%' WITH GRANT OPTION;
+
+
+-- Insertar algunas consolas de ejemplo
+INSERT INTO consolas (nombre, potenciaCPU, potenciaGPU, compania, precio, unidadesDisponibles) 
+VALUES 
+('PlayStation 5', 'AMD Zen 2', 'AMD RDNA 2', 'Sony', 499.99, 100),
+('Xbox Series X', 'AMD Zen 2', 'AMD RDNA 2', 'Microsoft', 499.99, 80),
+('Nintendo Switch', 'Custom NVIDIA Tegra', 'N/A', 'Nintendo', 299.99, 150);
+
+
+-- Insertar algunos juegos de ejemplo
+INSERT INTO juegos (idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles) 
+VALUES 
+(1, 'Spider-Man: Miles Morales', 'Insomniac Games', 'Acción', 87, 49.99, 50),
+(1, 'Demon\'s Souls', 'Bluepoint Games', 'Aventura', 92, 69.99, 30),
+(2, 'Halo Infinite', '343 Industries', 'Disparos', 85, 59.99, 40),
+(3, 'The Legend of Zelda: Breath of the Wild', 'Nintendo', 'Aventura', 97, 59.99, 80);
