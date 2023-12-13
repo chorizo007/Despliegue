@@ -90,7 +90,7 @@ public class Conexion {
 
     public String total(String tipo) throws SQLException {
         String consulta = "";
-        String tabla = "";
+        String tabla = "holaaa";
         if (tipo.equals("total-juegos")) {
             consulta = "SELECT * FROM juegos";
         } else if (tipo.equals("total")) {
