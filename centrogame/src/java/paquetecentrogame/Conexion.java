@@ -19,8 +19,8 @@ public class Conexion {
     public Conexion() {
         usuario = "daw2";
         passwordc = "1234";
-        //"jdbc:mysql://localhost:3306/centrogame";
-        ruta = "jdbc:mysql://192.168.1.144:3306/centrogame";
+        ruta ="jdbc:mysql://localhost:3306/centrogame";
+        //ruta = "jdbc:mysql://192.168.1.144:3306/centrogame";
     }
 
     public void Conectar() {
@@ -88,57 +88,60 @@ public class Conexion {
     }
     
 
-    public String total(String tipo) throws SQLException {
+    public String total(String tipo) {
         String consulta = "";
         String tabla = "";
-        if (tipo.equals("total-juegos")) {
-            consulta = "SELECT * FROM juegos";
-        } else if (tipo.equals("total")) {
-            consulta = "SELECT * FROM juegos INNER JOIN consolas ON juegos.idConsola = consolas.idConsola";
-        } else if (tipo.equals("consolas")) {
-            consulta = "SELECT * FROM consolas";
-        }else{
-            consulta = "SELECT * FROM juegos WHERE nombreJuego=" + tipo; 
-        }
+
         try {
+            if ("total-juegos".equals(tipo)) {
+                consulta = "SELECT * FROM juegos";
+            } else if ("total".equals(tipo)) {
+                consulta = "SELECT * FROM juegos INNER JOIN consolas ON juegos.idConsola = consolas.idConsola";
+            } else if ("consolas".equals(tipo)) {
+                consulta = "SELECT * FROM consolas";
+            } else {
+                consulta = "SELECT * FROM juegos WHERE nombreJuego=?";
+            }
+
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
-                ResultSet resultado = preparedStatement.executeQuery();
-                if (resultado != null) {
+                if (!"total".equals(tipo)) {
+                    preparedStatement.setString(1, tipo);
+                }
+
+                try (ResultSet resultado = preparedStatement.executeQuery()) {
                     int columnCount = resultado.getMetaData().getColumnCount();
+
                     if (columnCount > 0) {
                         if(resultado.next()){
-                            tabla += "<table>";
                             do {
                                 tabla += "<tr>";
                                 for (int i = 1; i <= columnCount; i++) {
-                                    tabla += "<td> " + resultado.getString(i) + " </td>";
+                                    tabla += "<td>" + resultado.getString(i) + "</td>";
                                 }
                                 if(tipo.equals("total")){
                                     tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
                                     tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
-                                }else{
-                                    tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</button></td>";
                                 }
-                                
+                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
                                 tabla += "</tr>";
                             }while((resultado.next()));
-                            tabla += "</table>";
                         }
                         else{
-                            tabla = "no se ha encontrado ningún resultado a la búsqueda";
+                            tabla += "no se ha encontrado ningún resultado a la búsqueda";
                         }
                     } else {
-                        tabla = "no hay columnas";
+                        tabla = "No se ha encontrado ningún resultado a la búsqueda";
                     }
-                } else {
-                    tabla = "Error en la consulta";
                 }
-                return tabla;
             }
+
         } catch (SQLException e) {
-             return e.getMessage();
+            tabla = "Error en la consulta: " + e.getMessage();
         }
+
+        return tabla;
     }
+
     public String eliminar(String codigo, String tipo) throws SQLException {
         String consulta = "";
         String delete = "";
