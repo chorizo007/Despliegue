@@ -19,8 +19,8 @@ public class Conexion {
     public Conexion() {
         usuario = "daw2";
         passwordc = "1234";
-        ruta ="jdbc:mysql://localhost:3306/centrogame";
-        //ruta = "jdbc:mysql://192.168.1.144:3306/centrogame";
+        //ruta ="jdbc:mysql://localhost:3306/centrogame";
+        ruta = "jdbc:mysql://192.168.1.144:3306/centrogame";
     }
 
     public void Conectar() {
@@ -176,11 +176,76 @@ public class Conexion {
         return "No hay unidades disponibles para poder comprar";
     }
 
-    public String admininsertar(String tipo) throws SQLException {
-        
-    }
     public String admineliminar(String tipo) throws SQLException {
-        if()
+        String consulta = "";
+        String tabla = "<table>";
+        if(tipo.equals("consola")){
+            consulta = "SELECT * FROM consolas";
+        }else{
+            consulta = "SELECT * FROM juegos";
+        }
+        try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
+            try (ResultSet resultado = preparedStatement.executeQuery()) {
+                int columnCount = resultado.getMetaData().getColumnCount();
+                if (columnCount > 0 && resultado.next()) {
+                    do {
+                        tabla += "<tr>";
+                        for (int i = 1; i <= columnCount; i++) {
+                            tabla += "<td>" + resultado.getString(i) + "</td>";
+                        }
+                        tabla += "<td> <input type='checkbox' name='eliminar[]'></td>'";
+                        tabla += "</tr>";
+                    } while (resultado.next());
+                } else {
+                    tabla = "no hay existencias";
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            tabla = "Error en la consulta: " + e.getMessage();
+        }
+        tabla += "</table>";
+        return tabla;
+    }
+
+    public String admininsertar(String tipo, String[] array) throws SQLException {
+        String consulta = "";
+        if(tipo.equals("consola")){
+            consulta = "INSERT INTO CONSOLAS VALUES (?,?,?,?,?,?)";
+            try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
+                preparedStatementConsulta.setString(1, array[0]);
+                preparedStatementConsulta.setString(2, array[1]);
+                preparedStatementConsulta.setString(3, array[2]);
+                preparedStatementConsulta.setString(4, array[3]);
+                preparedStatementConsulta.setString(5, array[4]);
+                preparedStatementConsulta.setString(6, array[5]);
+                ResultSet resultado = preparedStatementConsulta.executeUpdate();
+                if (resultado.next()) {
+                    return "realizado con exito";
+                } else {
+                    return "Error en la consulta";
+                }
+            }
+        }else{
+            consulta = "INSERT INTO CONSOLAS VALUES (?,?,?,?,?,?,?,?)";
+            try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
+                preparedStatementConsulta.setString(1, array[0]);
+                preparedStatementConsulta.setString(2, array[1]);
+                preparedStatementConsulta.setString(3, array[2]);
+                preparedStatementConsulta.setString(4, array[3]);
+                preparedStatementConsulta.setString(5, array[4]);
+                preparedStatementConsulta.setString(6, array[5]);
+                preparedStatementConsulta.setString(7, array[6]);
+                preparedStatementConsulta.setString(8, array[7]);
+                ResultSet resultado = preparedStatementConsulta.executeUpdate();
+                if (resultado.next()) {
+                    return "realizado con exito";
+                } else {
+                    return "Error en la consulta";
+                }
+            }
+        }
     }
 
 }
