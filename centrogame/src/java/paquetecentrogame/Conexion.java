@@ -89,7 +89,7 @@ public class Conexion {
     
 
     public String total(String tipo) {
-        String tabla = "";
+        String tabla = "<table>";
 
         try {
             String consulta = "";
@@ -100,28 +100,26 @@ public class Conexion {
             } else if ("consolas".equals(tipo)) {
                 consulta = "SELECT * FROM consolas";
             } else {
-                consulta = "SELECT * FROM juegos WHERE nombreJuego=?";
+                consulta = "SELECT * FROM juegos WHERE nombreJuego='" + tipo + "'";
             }
 
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
-                if ("total".equals(tipo)) {
-                    preparedStatement.setString(1, tipo);
-                }
-
                 try (ResultSet resultado = preparedStatement.executeQuery()) {
                     int columnCount = resultado.getMetaData().getColumnCount();
-
                     if (columnCount > 0 && resultado.next()) {
                         do {
+                            tabla += "<tr>";
                             for (int i = 1; i <= columnCount; i++) {
                                 tabla += "<td>" + resultado.getString(i) + "</td>";
                             }
                             if ("total".equals(tipo)) {
                                 tabla += "<td><button value='" + resultado.getString(1) + "," + "juego' name='tipo'>COMPRAR JUEGO</button></td>";
                                 tabla += "<td><button value='" + resultado.getString(2) + "," + "consolas' name='tipo'>COMPRAR CONSOLA</button></td>";
+                            }else{
+                                tabla += "<td><button value='" + resultado.getString(1) + "," + tipo + "' name='tipo'>COMPRAR</button></td>";
                             }
-                            tabla += "<td><button value='" + resultado.getString(1) + "," + tipo + "' name='tipo'>COMPRAR</button></td>";
-                            tabla += "</br>";
+                            
+                            tabla += "</tr>";
                         } while (resultado.next());
                     } else {
                         tabla = "No se ha encontrado ningún resultado a la búsqueda";
