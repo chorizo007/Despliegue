@@ -8,24 +8,27 @@
             session = request.getSession(false);
             if (session != null && session.getAttribute("tipo") != "admin") {
                 response.sendRedirect("index.jsp");
-            }/*
-            String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
-            String nombrejuego = request.getParameter("nombrejuego");
-            if(nombrejuego!=null){
-                response.sendRedirect("tabla.jsp?juego=" + nombrejuego);
             }
+            String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
+            String tipo = request.getParameter("tipo"); 
             if (tipodeconsulta != null) {
-                if (tipodeconsulta.equals("juegos")) {
-                    inputjuego = "Inserte el nombre del juego a buscar <input name='nombrejuego'>";
-                    selectjuego = "<option value='juegos' selected>buscar un juego</option>";
-                } else {
-                    response.sendRedirect("tabla.jsp?consulta=" + tipodeconsulta);
-                }
-            }*/
+                response.sendRedirect("tablaadmin.jsp?consulta=" + tipodeconsulta + ";" + tipo);
+            }
         %>
     </head>
     <body>
         <h1>solo admin</h1>
-        <a href="tablaadmin.jsp">tabla</a>
+            <form action="admin.jsp" method="post">
+            <select name="tipo-de-consulta">
+                <option value="insertar">insertar</option>
+                <option value="eliminar">eliminar</option>
+            </select>
+            <select name="tipo">
+                <option value="consola">consola</option>
+                <option value="juego">juego</option>
+            </select>
+            <br>
+            <button type="submit" name='boton' value='consultar'>enviar</button>
+        </form>
     </body>
 </html>

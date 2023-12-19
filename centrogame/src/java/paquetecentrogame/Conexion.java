@@ -100,7 +100,7 @@ public class Conexion {
             } else if ("consolas".equals(tipo)) {
                 consulta = "SELECT * FROM consolas";
             } else {
-                consulta = "SELECT * FROM juegos WHERE nombreJuego='" + tipo + "'";
+                consulta = "SELECT * FROM juegos WHERE nombreJuego like '%" + tipo + "%'";
             }
 
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
@@ -174,6 +174,13 @@ public class Conexion {
         }
 
         return "No hay unidades disponibles para poder comprar";
+    }
+
+    public String admininsertar(String tipo) throws SQLException {
+        
+    }
+    public String admineliminar(String tipo) throws SQLException {
+        if()
     }
 
 }

@@ -54,7 +54,7 @@
             </select>
             <br>
             <%=inputjuego%>
-            <button type="submit" name='boton' value='consultar'>enviar</button>
+            <button type="submit" name='boton' value='consultar'>BUSCAR</button>
         </form>
         <br>
         <br>
