@@ -8,6 +8,10 @@
         <servlet-name>cerrar</servlet-name>
         <servlet-class>paquetecentrogame.cerrar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>adminresul</servlet-name>
+        <servlet-class>paquetecentrogame.adminresul</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>valizamiento</servlet-name>
         <url-pattern>/valizamiento</url-pattern>
@@ -15,5 +19,9 @@
     <servlet-mapping>
         <servlet-name>cerrar</servlet-name>
         <url-pattern>/cerrar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>adminresul</servlet-name>
+        <url-pattern>/adminresul</url-pattern>
     </servlet-mapping>
 </web-app>

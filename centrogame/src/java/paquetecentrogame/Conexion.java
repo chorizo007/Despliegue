@@ -211,24 +211,22 @@ public class Conexion {
 
     public String admininsertar(String tipo, String[] array) throws SQLException {
         String consulta = "";
-        if(tipo.equals("consola")){
+        int filasAfectadas = 0;
+        if (tipo.equals("consola")) {
             consulta = "INSERT INTO CONSOLAS VALUES (?,?,?,?,?,?)";
             try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
-                preparedStatementConsulta.setString(1, array[0]);
+                preparedStatementConsulta.setString(1, array[0]); 
                 preparedStatementConsulta.setString(2, array[1]);
-                preparedStatementConsulta.setString(3, array[2]);
-                preparedStatementConsulta.setString(4, array[3]);
-                preparedStatementConsulta.setString(5, array[4]);
-                preparedStatementConsulta.setString(6, array[5]);
-                ResultSet resultado = preparedStatementConsulta.executeUpdate();
-                if (resultado.next()) {
-                    return "realizado con exito";
-                } else {
-                    return "Error en la consulta";
-                }
+                preparedStatementConsulta.setString(3, array[2]); 
+                preparedStatementConsulta.setString(4, array[3]); 
+                preparedStatementConsulta.setString(5, array[4]); 
+                preparedStatementConsulta.setString(6, array[5]); 
+                preparedStatementConsulta.setString(7, array[6]); 
+
+                filasAfectadas = preparedStatementConsulta.executeUpdate();
             }
-        }else{
-            consulta = "INSERT INTO CONSOLAS VALUES (?,?,?,?,?,?,?,?)";
+        } else {
+            consulta = "INSERT INTO JUEGOS VALUES (?,?,?,?,?,?,?,?)";
             try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
                 preparedStatementConsulta.setString(1, array[0]);
                 preparedStatementConsulta.setString(2, array[1]);
@@ -238,13 +236,13 @@ public class Conexion {
                 preparedStatementConsulta.setString(6, array[5]);
                 preparedStatementConsulta.setString(7, array[6]);
                 preparedStatementConsulta.setString(8, array[7]);
-                ResultSet resultado = preparedStatementConsulta.executeUpdate();
-                if (resultado.next()) {
-                    return "realizado con exito";
-                } else {
-                    return "Error en la consulta";
-                }
+                filasAfectadas = preparedStatementConsulta.executeUpdate();
             }
+        }
+        if (filasAfectadas > 0) {
+            return "Realizado con exito";
+        } else {
+            return "Error en la consulta";
         }
     }
 
