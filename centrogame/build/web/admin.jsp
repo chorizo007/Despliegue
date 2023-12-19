@@ -8,7 +8,20 @@
             session = request.getSession(false);
             if (session != null && session.getAttribute("tipo") != "admin") {
                 response.sendRedirect("index.jsp");
+            }/*
+            String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
+            String nombrejuego = request.getParameter("nombrejuego");
+            if(nombrejuego!=null){
+                response.sendRedirect("tabla.jsp?juego=" + nombrejuego);
             }
+            if (tipodeconsulta != null) {
+                if (tipodeconsulta.equals("juegos")) {
+                    inputjuego = "Inserte el nombre del juego a buscar <input name='nombrejuego'>";
+                    selectjuego = "<option value='juegos' selected>buscar un juego</option>";
+                } else {
+                    response.sendRedirect("tabla.jsp?consulta=" + tipodeconsulta);
+                }
+            }*/
         %>
     </head>
     <body>

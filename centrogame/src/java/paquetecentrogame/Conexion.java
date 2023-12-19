@@ -89,10 +89,10 @@ public class Conexion {
     
 
     public String total(String tipo) {
-        String consulta = "";
         String tabla = "";
 
         try {
+            String consulta = "";
             if ("total-juegos".equals(tipo)) {
                 consulta = "SELECT * FROM juegos";
             } else if ("total".equals(tipo)) {
@@ -104,31 +104,25 @@ public class Conexion {
             }
 
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
-                if (!"total".equals(tipo)) {
+                if ("total".equals(tipo)) {
                     preparedStatement.setString(1, tipo);
                 }
 
                 try (ResultSet resultado = preparedStatement.executeQuery()) {
                     int columnCount = resultado.getMetaData().getColumnCount();
 
-                    if (columnCount > 0) {
-                        if(resultado.next()){
-                            do {
-                                tabla += "<tr>";
-                                for (int i = 1; i <= columnCount; i++) {
-                                    tabla += "<td>" + resultado.getString(i) + "</td>";
-                                }
-                                if(tipo.equals("total")){
-                                    tabla += "<td><button value='"+ resultado.getString(1)+","+"juego"+"' name='tipo'>COMPRRAR JUEGO</td>";
-                                    tabla += "<td><button value='"+ resultado.getString(2)+","+"consolas"+"' name='tipo'>COMPRRAR CONSOLA</td>";
-                                }
-                                tabla += "<td><button value='"+ resultado.getString(1)+","+tipo+"' name='tipo'>COMPRAR</td>";
-                                tabla += "</tr>";
-                            }while((resultado.next()));
-                        }
-                        else{
-                            tabla += "no se ha encontrado ningún resultado a la búsqueda";
-                        }
+                    if (columnCount > 0 && resultado.next()) {
+                        do {
+                            for (int i = 1; i <= columnCount; i++) {
+                                tabla += "<td>" + resultado.getString(i) + "</td>";
+                            }
+                            if ("total".equals(tipo)) {
+                                tabla += "<td><button value='" + resultado.getString(1) + "," + "juego' name='tipo'>COMPRAR JUEGO</button></td>";
+                                tabla += "<td><button value='" + resultado.getString(2) + "," + "consolas' name='tipo'>COMPRAR CONSOLA</button></td>";
+                            }
+                            tabla += "<td><button value='" + resultado.getString(1) + "," + tipo + "' name='tipo'>COMPRAR</button></td>";
+                            tabla += "</br>";
+                        } while (resultado.next());
                     } else {
                         tabla = "No se ha encontrado ningún resultado a la búsqueda";
                     }
@@ -136,9 +130,9 @@ public class Conexion {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             tabla = "Error en la consulta: " + e.getMessage();
         }
-
         return tabla;
     }
 
