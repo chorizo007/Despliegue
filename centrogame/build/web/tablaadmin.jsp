@@ -34,9 +34,6 @@
             } else {
                 if(tipos[1].equals("consola")) {
                     respuesta = 
-                        "<label for='idConsola'>ID de Consola:</label>" +
-                        "<input type='text' name='idConsola' id='idConsola' required>" +
-                        "<br>" +
                         "<label for='nombre'>Nombre:</label>" +
                         "<input type='text' name='nombre' id='nombre' required>" +
                         "<br>" +
@@ -58,10 +55,7 @@
                         "<input type='text' name='consola' value='consola' hidden>";
 
                 } else {
-                    respuesta = 
-                        "<label for='idJuego'>ID de Juego:</label>" +
-                        "<input type='text' name='idJuego' id='idJuego' required>" +
-                        "<br>" +
+                    respuesta =
                         "<label for='idConsola'>ID de Consola:</label>" +
                         "<input type='text' name='idConsola' id='idConsola'>" +
                         "<br>" +

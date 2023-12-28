@@ -29,29 +29,28 @@ public class adminresul extends HttpServlet {
             String juegos = request.getParameter("juegos");
             String idConsola = request.getParameter("idConsola");
             String unidadesDisponibles = request.getParameter("unidadesDisponibles");
-
+            String precio = request.getParameter("precio");
             if (juegos != null) {
-                String nombre = request.getParameter("nombre");
-                String potenciaCPU = request.getParameter("potenciaCPU");
-                String potenciaGPU = request.getParameter("potenciaGPU");
-                String compania = request.getParameter("compania");
-                String[] arraycampos = {idConsola, nombre, potenciaCPU, potenciaGPU, compania, unidadesDisponibles};
-                try {
-                    respuesta = miConexion.admininsertar("consola", arraycampos);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    respuesta = "Error en la consulta SQL: " + ex.getMessage();
-                }
-            } else {
                 String idJuego = request.getParameter("idJuego");
                 String nombreJuego = request.getParameter("nombreJuego");
                 String desarrolladora = request.getParameter("desarrolladora");
                 String genero = request.getParameter("genero");
                 String puntuacionMetacritic = request.getParameter("puntuacionMetacritic");
-                String precio = request.getParameter("precio");
-                String[] arraycampos = {idJuego, idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles};
+                String[] arraycampos = {idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles};
                 try {
                     respuesta = miConexion.admininsertar("juegos", arraycampos);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    respuesta = "Error en la consulta SQL: " + ex.getMessage();
+                }
+            } else {
+                String nombre = request.getParameter("nombre");
+                String potenciaCPU = request.getParameter("potenciaCPU");
+                String potenciaGPU = request.getParameter("potenciaGPU");
+                String compania = request.getParameter("compania");
+                String[] arraycampos = {nombre, potenciaCPU, potenciaGPU, compania, precio, unidadesDisponibles};
+                try {
+                    respuesta = miConexion.admininsertar("consola", arraycampos);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     respuesta = "Error en la consulta SQL: " + ex.getMessage();

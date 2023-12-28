@@ -221,20 +221,18 @@ public class Conexion {
         String consulta = "";
         int filasAfectadas = 0;
         if (tipo.equals("consola")) {
-            consulta = "INSERT INTO CONSOLAS VALUES (?,?,?,?,?,?)";
+            consulta = "INSERT INTO CONSOLAS (nombre, potenciaCPU, potenciaGPU, compania, precio, unidadesDisponibles) VALUES (?,?,?,?,?,?)";
             try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
                 preparedStatementConsulta.setString(1, array[0]); 
                 preparedStatementConsulta.setString(2, array[1]);
                 preparedStatementConsulta.setString(3, array[2]); 
                 preparedStatementConsulta.setString(4, array[3]); 
                 preparedStatementConsulta.setString(5, array[4]); 
-                preparedStatementConsulta.setString(6, array[5]); 
-                preparedStatementConsulta.setString(7, array[6]); 
-
+                preparedStatementConsulta.setString(6, array[5]);
                 filasAfectadas = preparedStatementConsulta.executeUpdate();
             }
         } else {
-            consulta = "INSERT INTO JUEGOS VALUES (?,?,?,?,?,?,?,?)";
+            consulta = "INSERT INTO JUEGOS (idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles) VALUES (?,?,?,?,?,?,?)";
             try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
                 preparedStatementConsulta.setString(1, array[0]);
                 preparedStatementConsulta.setString(2, array[1]);
@@ -243,7 +241,6 @@ public class Conexion {
                 preparedStatementConsulta.setString(5, array[4]);
                 preparedStatementConsulta.setString(6, array[5]);
                 preparedStatementConsulta.setString(7, array[6]);
-                preparedStatementConsulta.setString(8, array[7]);
                 filasAfectadas = preparedStatementConsulta.executeUpdate();
             }
         }
@@ -280,7 +277,7 @@ public class Conexion {
         }
 
         if (filasAfectadas > 0) {
-            return "Realizado con éxito";
+            return "Realizado con exito";
         } else {
             return "No se encontraron registros para eliminar";
         }
