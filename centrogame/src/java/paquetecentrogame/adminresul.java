@@ -16,44 +16,61 @@ public class adminresul extends HttpServlet {
         Conexion miConexion = new Conexion();
         miConexion.Conectar();
         String respuesta = "";
-        String juegos = request.getParameter("juegos");
-        String idConsola = request.getParameter("idConsola");
-        String unidadesDisponibles = request.getParameter("unidadesDisponibles");
-        
-        if (juegos != null) {
-            String nombre = request.getParameter("nombre");
-            String potenciaCPU = request.getParameter("potenciaCPU");
-            String potenciaGPU = request.getParameter("potenciaGPU");
-            String compania = request.getParameter("compania");
-            String[] arraycampos = {idConsola, nombre, potenciaCPU, potenciaGPU, compania, unidadesDisponibles};
-            try {
-                respuesta = miConexion.admininsertar("consola", arraycampos);
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Imprime la excepción para depuración
-                respuesta = "Error en la consulta SQL: " + ex.getMessage();
+        String botonBorrar = request.getParameter("borrar");
+        if (botonBorrar != null) {
+            String[] idsAEliminar = request.getParameterValues("eliminar[]");
+            String tipoBorrar = request.getParameter("tipoborrar");
+            if (idsAEliminar != null) {
+                if (tipoBorrar.equals("consola")) {
+                    for (String id : idsAEliminar) {
+                        miConexion.
+                    }
+                } else {
+                    for (String id : idsAEliminar) {
+                        respuesta += id;
+                    }
+                }
+            } else {
+                respuesta = "No has seleccionado ninguna opcion para eliminar.";
             }
         } else {
-            respuesta = "hola";
-            String idJuego = request.getParameter("idJuego");
-            String nombreJuego = request.getParameter("nombreJuego");
-            String desarrolladora = request.getParameter("desarrolladora");
-            String genero = request.getParameter("genero");
-            String puntuacionMetacritic = request.getParameter("puntuacionMetacritic");
-            String precio = request.getParameter("precio");
-            String[] arraycampos = {idJuego, idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles};
-            try {
-                respuesta = miConexion.admininsertar("juegos", arraycampos);
-            } catch (SQLException ex) {
-                ex.printStackTrace(); // Imprime la excepción para depuración
-                respuesta = "Error en la consulta SQL: " + ex.getMessage();
+            String juegos = request.getParameter("juegos");
+            String idConsola = request.getParameter("idConsola");
+            String unidadesDisponibles = request.getParameter("unidadesDisponibles");
+
+            if (juegos != null) {
+                String nombre = request.getParameter("nombre");
+                String potenciaCPU = request.getParameter("potenciaCPU");
+                String potenciaGPU = request.getParameter("potenciaGPU");
+                String compania = request.getParameter("compania");
+                String[] arraycampos = {idConsola, nombre, potenciaCPU, potenciaGPU, compania, unidadesDisponibles};
+                try {
+                    respuesta = miConexion.admininsertar("consola", arraycampos);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    respuesta = "Error en la consulta SQL: " + ex.getMessage();
+                }
+            } else {
+                String idJuego = request.getParameter("idJuego");
+                String nombreJuego = request.getParameter("nombreJuego");
+                String desarrolladora = request.getParameter("desarrolladora");
+                String genero = request.getParameter("genero");
+                String puntuacionMetacritic = request.getParameter("puntuacionMetacritic");
+                String precio = request.getParameter("precio");
+                String[] arraycampos = {idJuego, idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles};
+                try {
+                    respuesta = miConexion.admininsertar("juegos", arraycampos);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    respuesta = "Error en la consulta SQL: " + ex.getMessage();
+                }
             }
         }
-
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Admin</title>");            
+            out.println("<title>Admin</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>" + respuesta + "</h1>");

@@ -178,36 +178,44 @@ public class Conexion {
 
     public String admineliminar(String tipo) throws SQLException {
         String consulta = "";
-        String tabla = "<table>";
-        if(tipo.equals("consola")){
+        String tabla = "<table border='1'>";
+        if (tipo.equals("consola")) {
+            tabla += "<input type='hidden' name='tipoborrar' value='consola'>";
             consulta = "SELECT * FROM consolas";
-        }else{
+        } else {
+            tabla += "<input type='hidden' name='tipoborrar' value='juegos'>";
             consulta = "SELECT * FROM juegos";
         }
         try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
             try (ResultSet resultado = preparedStatement.executeQuery()) {
                 int columnCount = resultado.getMetaData().getColumnCount();
-                if (columnCount > 0 && resultado.next()) {
-                    do {
+                if (columnCount > 0) {
+                    tabla += "<tr>";
+                    for (int i = 1; i <= columnCount; i++) {
+                        tabla += "<th>" + resultado.getMetaData().getColumnName(i) + "</th>";
+                    }
+                    tabla += "<th>Seleccionar</th></tr>";
+                    while (resultado.next()) {
                         tabla += "<tr>";
                         for (int i = 1; i <= columnCount; i++) {
                             tabla += "<td>" + resultado.getString(i) + "</td>";
                         }
-                        tabla += "<td> <input type='checkbox' name='eliminar[]'></td>'";
+                        tabla += "<td><input type='checkbox' name='eliminar[]' value='" + resultado.getString(1) + "'></td>";
                         tabla += "</tr>";
-                    } while (resultado.next());
+                    }
+                    tabla += "<tr><td colspan='" + columnCount + "'><button type='submit' name='borrar'>BORRAR</button></td></tr>";
                 } else {
-                    tabla = "no hay existencias";
+                    tabla = "No hay existencias";
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             tabla = "Error en la consulta: " + e.getMessage();
         }
         tabla += "</table>";
         return tabla;
     }
+
 
     public String admininsertar(String tipo, String[] array) throws SQLException {
         String consulta = "";

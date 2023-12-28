@@ -85,16 +85,17 @@
                         "<br>"+
                         "<input type='text' name='juegos' value='juegos' hidden>";
                 }
+                respuesta += "<br><br><br><br><button type='submit'>INSERTAR</button>";
             }
             miconexion.desConectar();
-            respuesta += "<br><br><br><br><button type='submit'>INSERTAR</button>";
+            
         %>
     </head>
     <body>
         <h1>Solo Admin TABLA</h1>
         <form action="adminresul" method="post">
-            <%=respuesta %>
-            <%=tabla %>
+            <%=respuesta%>
+            <%=tabla%>
         </form>
         <br>
         <br>
