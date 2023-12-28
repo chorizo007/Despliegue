@@ -27,9 +27,9 @@
 
             if(tipos[0].equals("eliminar")) {
                 if(tipos[1].equals("consola")) {
-                    tabla = miconexion.admineliminar("consola");
+                    tabla = miconexion.tablaeliminar("consola");
                 } else {
-                    tabla = miconexion.admineliminar("juego");
+                    tabla = miconexion.tablaeliminar("juego");
                 }
             } else {
                 if(tipos[1].equals("consola")) {

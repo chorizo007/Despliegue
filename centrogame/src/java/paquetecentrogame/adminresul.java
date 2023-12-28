@@ -21,15 +21,7 @@ public class adminresul extends HttpServlet {
             String[] idsAEliminar = request.getParameterValues("eliminar[]");
             String tipoBorrar = request.getParameter("tipoborrar");
             if (idsAEliminar != null) {
-                if (tipoBorrar.equals("consola")) {
-                    for (String id : idsAEliminar) {
-                        miConexion.
-                    }
-                } else {
-                    for (String id : idsAEliminar) {
-                        respuesta += id;
-                    }
-                }
+                respuesta = miConexion.eliminarAdmin(tipoBorrar,idsAEliminar);
             } else {
                 respuesta = "No has seleccionado ninguna opcion para eliminar.";
             }

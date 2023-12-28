@@ -176,7 +176,7 @@ public class Conexion {
         return "No hay unidades disponibles para poder comprar";
     }
 
-    public String admineliminar(String tipo) throws SQLException {
+    public String tablaeliminar(String tipo) throws SQLException {
         String consulta = "";
         String tabla = "<table border='1'>";
         if (tipo.equals("consola")) {
@@ -251,6 +251,38 @@ public class Conexion {
             return "Realizado con exito";
         } else {
             return "Error en la consulta";
+        }
+    }
+
+    public String eliminarAdmin(String tipo, String[] array) {
+        String tabla;
+        String campo;
+        if ("juegos".equals(tipo)) {
+            tabla = "juegos";
+            campo = "idjuego";
+        } else {
+            tabla = "consolas";
+            campo = "idconsola";
+        }
+
+        String consulta = "DELETE FROM " + tabla + " WHERE " + campo + " IN ('0'";
+        for (String id : array) {
+            consulta += ",'" + id + "'";
+        }
+        consulta += ")";
+        
+        int filasAfectadas = 0;
+        try (PreparedStatement preparedStatementConsulta = this.miConexion.prepareStatement(consulta)) {
+            filasAfectadas = preparedStatementConsulta.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error en la consulta";
+        }
+
+        if (filasAfectadas > 0) {
+            return "Realizado con éxito";
+        } else {
+            return "No se encontraron registros para eliminar";
         }
     }
 
