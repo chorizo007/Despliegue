@@ -5,6 +5,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            p{
+                color:red;
+            }
+            body{
+                display:flex;
+                justify-content:center;
+            }
+        </style>
         <%session = request.getSession(false); %>
         <% 
             if (session != null && session.getAttribute("tipo") != null) {
@@ -13,22 +22,27 @@
         %>
     </head>
     <body>
-        <h1>login</h1>
-        <form action="valizamiento" method="post">
-            usuario<input name="user">
-            contraseña<input name="password">
-            <button type="submit" name='boton' value='login'>enviar</button>
-            <%
-                String mensaje = request.getParameter("error");
-                if (mensaje != null) {
-            %>
-                   <p><%= mensaje %></p>
-            <%
-                }
-            %>
-        </form>
-        <br>
-        <br>
-        <a href="registro.jsp">NO tienes cuenta ??</a>
+        <div>
+        <h1>Iniciar sesión</h1>
+        <hr>
+            <form action="valizamiento" method="post">
+                usuario<input name="user">
+                contraseña<input name="password">
+                <button type="submit" name='boton' value='login'>enviar</button>
+                <%
+                    String mensaje = request.getParameter("error");
+                    if (mensaje != null) {
+                %>
+                    <p><%= mensaje %></p>
+                <%
+                    }
+                %>
+            </form>
+            <br>
+            <br>
+            <a href="registro.jsp">NO tienes cuenta ??</a>
+        </div>
+
+        
     </body>
 </html>

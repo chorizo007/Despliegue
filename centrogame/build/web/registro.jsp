@@ -5,6 +5,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            p{
+                color:red;
+            }
+            body{
+                display:flex;
+                justify-content:center;
+            }
+        </style>
         <%session = request.getSession(false); %>
         <% 
             if (session != null && session.getAttribute("tipo") != null) {
@@ -13,7 +22,9 @@
         %>
     </head>
     <body>
-        <h1>registro</h1>
+        <div>
+        <h1>Registro</h1>
+        <hr>
         <form action="valizamiento" method="post">
             usuario<input name="user">
             contraseña<input name="password">
@@ -30,5 +41,6 @@
         <br>
         <br>
         <a href="login.jsp">tienes cuenta ??</a>
+        </div>
     </body>
 </html>

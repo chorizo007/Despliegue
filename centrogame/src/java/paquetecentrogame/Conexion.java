@@ -90,7 +90,7 @@ public class Conexion {
 
     public String total(String tipo) {
         String tabla = "<table>";
-
+        //que campos son los que tengo que enseñar ???? 
         try {
             String consulta = "";
             if ("total-juegos".equals(tipo)) {
@@ -107,6 +107,11 @@ public class Conexion {
                 try (ResultSet resultado = preparedStatement.executeQuery()) {
                     int columnCount = resultado.getMetaData().getColumnCount();
                     if (columnCount > 0 && resultado.next()) {
+                        tabla += "<tr>";
+                        for (int i = 1; i <= columnCount; i++) {
+                            tabla += "<th>" + resultado.getMetaData().getColumnName(i) + "</th>";
+                        }
+                        tabla += "</tr>";
                         do {
                             tabla += "<tr>";
                             for (int i = 1; i <= columnCount; i++) {

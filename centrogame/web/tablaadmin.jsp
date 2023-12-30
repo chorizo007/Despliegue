@@ -11,6 +11,54 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            nav{
+                background-color: rgb(213, 252, 213);
+                display: flex;
+                justify-content: space-between;
+            }
+            nav *{
+                margin: 14px;
+            }
+            button{
+                background-color:white;
+                border:2px solid rgba(50, 55, 56, 0.839);
+                border-radius: 10px;
+                margin: 5px;
+                padding: 8px;
+                padding-left: 25px;
+                padding-right: 25px;
+                text-decoration: none;
+                color: black;
+            }
+            button:hover{
+                background-color: rgba(50, 55, 56, 0.839);
+                color: white;
+                border: 2px solid white;       
+            }
+            a{
+                text-decoration: none;
+                color:black;
+            }
+            .busqueda{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                
+            }
+            .busqueda div{
+                padding: 10px;
+                background-color: rgb(213, 252, 213);
+                padding: 15px;
+                border-radius: 25px;
+                padding-bottom: 15px;
+            }
+            select, input{
+                padding: 8px;
+                border-radius: 5px;
+                margin: 4px;
+            }
+        </style>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <% 
@@ -79,21 +127,28 @@
                         "<br>"+
                         "<input type='text' name='juegos' value='juegos' hidden>";
                 }
-                respuesta += "<br><br><br><br><button type='submit'>INSERTAR</button>";
+                respuesta += "<br><button type='submit'>INSERTAR</button>";
             }
             miconexion.desConectar();
             
         %>
     </head>
     <body>
-        <h1>Solo Admin TABLA</h1>
+        <nav>
+            <button><a href='admin.jsp'>administrador</a></button>
+            <h1><a href="index.jsp">GAMING</a></h1>
+            <button><a href="cerrar">cerrar sesion</a></button>
+        </nav>
+        <h1>Solo admin</h1>
         <form action="adminresul" method="post">
-            <%=respuesta%>
-            <%=tabla%>
+            <div class="busqueda">
+                <div>
+                    <%=respuesta%>
+                    <%=tabla%>
+                </div>
+            </div>
         </form>
         <br>
         <br>
-        </br>
-        <a href="index.jsp">Inicio</a>
     </body>
 </html>
