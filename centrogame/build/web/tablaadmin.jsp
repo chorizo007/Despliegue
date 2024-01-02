@@ -63,24 +63,24 @@
         <title>JSP Page</title>
         <% 
             session = request.getSession(false);
-            if (session != null && session.getAttribute("tipo") != "admin") {
+            if (session != null && session.getAttribute("tipo") != "admin") { //comprobamos que es admin
                 response.sendRedirect("index.jsp");
             }
             Conexion miconexion = new Conexion();
             miconexion.Conectar();
             String respuesta = "";
-            String consulta = request.getParameter("consulta"); 
+            String consulta = request.getParameter("consulta"); //recogemos el tipo de consulta y la tabla
             String []tipos = consulta.split(";");
             String tabla = "";
 
-            if(tipos[0].equals("eliminar")) {
+            if(tipos[0].equals("eliminar")) { // si es eliminar,generamos una tabla con todos los campos de la tabla respectiva
                 if(tipos[1].equals("consola")) {
                     tabla = miconexion.tablaeliminar("consola");
                 } else {
                     tabla = miconexion.tablaeliminar("juego");
                 }
             } else {
-                if(tipos[1].equals("consola")) {
+                if(tipos[1].equals("consola")) { //si es hacer un insert, hacemos un pequeño formulario
                     respuesta = 
                         "<label for='nombre'>Nombre:</label>" +
                         "<input type='text' name='nombre' id='nombre' required>" +

@@ -56,13 +56,13 @@
         <title>JSP Page</title>
         <% 
             session = request.getSession(false);
-            if (session != null && session.getAttribute("tipo") != "admin") {
+            if (session != null && session.getAttribute("tipo") != "admin") { //comprobar que es admin y que esta logeado
                 response.sendRedirect("index.jsp");
             }
-            String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
+            String tipodeconsulta = request.getParameter("tipo-de-consulta"); //recogemos el tipo y la tabla
             String tipo = request.getParameter("tipo"); 
             if (tipodeconsulta != null) {
-                response.sendRedirect("tablaadmin.jsp?consulta=" + tipodeconsulta + ";" + tipo);
+                response.sendRedirect("tablaadmin.jsp?consulta=" + tipodeconsulta + ";" + tipo); 
             }
         %>
     </head>

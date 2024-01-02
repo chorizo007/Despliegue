@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-12-2023 a las 17:47:53
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 02-01-2024 a las 16:43:25
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,146 +18,172 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: centrogame
+-- Base de datos: `centrogame`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla consolas
+-- Estructura de tabla para la tabla `consolas`
 --
 
-CREATE TABLE consolas (
-  idConsola int(11) NOT NULL,
-  nombre varchar(50) NOT NULL,
-  potenciaCPU varchar(50) DEFAULT NULL,
-  potenciaGPU varchar(50) DEFAULT NULL,
-  compania varchar(50) DEFAULT NULL,
-  precio decimal(10,2) DEFAULT NULL,
-  unidadesDisponibles int(11) DEFAULT NULL
+CREATE TABLE `consolas` (
+  `idConsola` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `potenciaCPU` varchar(50) DEFAULT NULL,
+  `potenciaGPU` varchar(50) DEFAULT NULL,
+  `compania` varchar(50) DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
+  `unidadesDisponibles` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `consolas`
+--
+
+INSERT INTO `consolas` (`idConsola`, `nombre`, `potenciaCPU`, `potenciaGPU`, `compania`, `precio`, `unidadesDisponibles`) VALUES
+(1, 'PlayStation 5', 'AMD Ryzen Zen 2, 8 núcleos', 'AMD RDNA 2, 10.28 TFLOPs', 'Sony', 499.99, 98),
+(2, 'Xbox Series X', 'AMD Ryzen Zen 2, 8 núcleos', 'AMD RDNA 2, 12 TFLOPs', 'Microsoft', 499.99, 119),
+(3, 'Nintendo Switch', 'NVIDIA Custom Tegra X1', 'NVIDIA Custom Tegra X1', 'Nintendo', 299.99, 149),
+(4, 'PlayStation 4', 'AMD Jaguar, 8 núcleos', 'AMD GCN, 1.84 TFLOPs', 'Sony', 299.99, 78),
+(5, 'Xbox One X', 'AMD Jaguar, 8 núcleos', 'AMD GCN, 6 TFLOPs', 'Microsoft', 399.99, 90),
+(6, 'Nintendo Switch Lite', 'NVIDIA Custom Tegra X1', 'NVIDIA Custom Tegra X1', 'Nintendo', 199.99, 79),
+(7, 'PlayStation 3', 'Cell Broadband Engine', 'RSX', 'Sony', 299.99, 29),
+(8, 'Xbox 360', 'IBM PowerPC, 3 núcleos', 'Xenos', 'Microsoft', 199.99, 37),
+(9, 'Nintendo Wii U', 'IBM PowerPC, 3 núcleos', 'AMD Radeon, 0.35 TFLOPs', 'Nintendo', 299.99, 24),
+(10, 'Nintendo 3DS', 'ARM11', 'PICA200', 'Nintendo', 199.99, 60);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla juegos
+-- Estructura de tabla para la tabla `juegos`
 --
 
-CREATE TABLE juegos (
-  idJuego int(11) NOT NULL,
-  idConsola int(11) DEFAULT NULL,
-  nombreJuego varchar(100) NOT NULL,
-  desarrolladora varchar(50) DEFAULT NULL,
-  genero varchar(50) DEFAULT NULL,
-  puntuacionMetacritic int(11) DEFAULT NULL,
-  precio decimal(10,2) DEFAULT NULL,
-  unidadesDisponibles int(11) DEFAULT NULL
+CREATE TABLE `juegos` (
+  `idJuego` int(11) NOT NULL,
+  `idConsola` int(11) DEFAULT NULL,
+  `nombreJuego` varchar(100) DEFAULT NULL,
+  `desarrolladora` varchar(50) DEFAULT NULL,
+  `genero` varchar(50) DEFAULT NULL,
+  `puntuacionMetacritic` int(11) DEFAULT NULL,
+  `precio` decimal(10,2) DEFAULT NULL,
+  `unidadesDisponibles` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `juegos`
+--
+
+INSERT INTO `juegos` (`idJuego`, `idConsola`, `nombreJuego`, `desarrolladora`, `genero`, `puntuacionMetacritic`, `precio`, `unidadesDisponibles`) VALUES
+(1, 1, 'Demons Souls', 'Bluepoint Games', 'Acción y aventura', 92, 69.99, 49),
+(2, 1, 'Ratchet Clank Rift Apart', 'Insomniac Games', 'Plataformas', 88, 59.99, 69),
+(3, 1, 'Returnal', 'Housemarque', 'Disparos', 87, 69.99, 39),
+(4, 2, 'Halo Infinite', '343 Industries', 'Shooter', 85, 59.99, 80),
+(5, 2, 'Fable', 'Playground Games', 'Acción y aventura', 0, 69.99, 60),
+(6, 2, 'Forza Motorsport 8', 'Turn 10 Studios', 'Conducción', 0, 69.99, 70),
+(7, 3, 'Animal Crossing: New Horizons', 'Nintendo', 'Simulación', 90, 49.99, 99),
+(8, 3, 'Super Smash Bros. Ultimate', 'Bandai Namco Studios', 'Lucha', 93, 59.99, 80),
+(9, 3, 'The Legend of Zelda: Links Awakening', 'Nintendo', 'Aventura', 87, 49.99, 57),
+(10, 4, 'The Last of Us Part II', 'Naughty Dog', 'Acción y aventura', 93, 59.99, 75),
+(11, 4, 'Ghost of Tsushima', 'Sucker Punch Productions', 'Acción y aventura', 83, 49.99, 90),
+(12, 4, 'Spider-Man', 'Insomniac Games', 'Acción y aventura', 87, 49.99, 70),
+(13, 5, 'Gears 5', 'The Coalition', 'Shooter', 84, 59.99, 54),
+(14, 5, 'Forza Horizon 4', 'Playground Games', 'Conducción', 92, 49.99, 70),
+(15, 5, 'Red Dead Redemption 2', 'Rockstar Games', 'Acción y aventura', 97, 49.99, 50),
+(16, 6, 'Luigis Mansion 3', 'Nintendo', 'Aventura', 86, 49.99, 40),
+(17, 6, 'Pokémon Sword', 'Game Freak', 'RPG', 80, 59.99, 60),
+(18, 6, 'Animal Crossing: New Horizons', 'Nintendo', 'Simulación', 90, 49.99, 29),
+(19, 7, 'Uncharted 2: Among Thieves', 'Naughty Dog', 'Acción y aventura', 96, 19.99, 25),
+(20, 7, 'Metal Gear Solid 4: Guns of the Patriots', 'Kojima Productions', 'Acción y aventura', 94, 29.99, 19),
+(21, 7, 'Gran Turismo 5', 'Polyphony Digital', 'Conducción', 84, 14.99, 15),
+(22, 8, 'Halo 3', 'Bungie', 'Shooter', 94, 19.99, 30),
+(23, 8, 'Gears of War', 'Epic Games', 'Shooter', 94, 14.99, 24),
+(24, 8, 'Forza Motorsport 4', 'Turn 10 Studios', 'Conducción', 91, 9.99, 20),
+(25, 9, 'Super Mario 3D World', 'Nintendo', 'Plataformas', 93, 29.99, 34),
+(26, 9, 'The Legend of Zelda: The Wind Waker HD', 'Nintendo', 'Aventura', 90, 29.99, 30),
+(27, 9, 'Mario Kart 8', 'Nintendo', 'Conducción', 88, 24.99, 24),
+(28, 10, 'Pokémon X', 'Game Freak', 'RPG', 87, 39.99, 50),
+(29, 10, 'The Legend of Zelda: A Link Between Worlds', 'Nintendo', 'Aventura', 91, 29.99, 40),
+(30, 10, 'Super Smash Bros. for Nintendo 3DS', 'Bandai Namco Studios', 'Lucha', 85, 34.99, 30);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla usuarios
+-- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE usuarios (
-  idUsuario int(11) NOT NULL,
-  username varchar(50) NOT NULL,
-  password varchar(50) NOT NULL,
-  isAdmin tinyint(1) NOT NULL
+CREATE TABLE `usuarios` (
+  `idUsuario` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `isAdmin` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`idUsuario`, `username`, `password`, `isAdmin`) VALUES
+(1, 'nico', 'nico', 0),
+(2, 'admin', 'admin', 1);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla consolas
+-- Indices de la tabla `consolas`
 --
-ALTER TABLE consolas
-  ADD PRIMARY KEY (idConsola);
+ALTER TABLE `consolas`
+  ADD PRIMARY KEY (`idConsola`);
 
 --
--- Indices de la tabla juegos
+-- Indices de la tabla `juegos`
 --
-ALTER TABLE juegos
-  ADD PRIMARY KEY (idJuego),
-  ADD KEY idConsola (idConsola);
+ALTER TABLE `juegos`
+  ADD PRIMARY KEY (`idJuego`),
+  ADD KEY `fk_idConsola` (`idConsola`);
 
 --
--- Indices de la tabla usuarios
+-- Indices de la tabla `usuarios`
 --
-ALTER TABLE usuarios
-  ADD PRIMARY KEY (idUsuario);
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`idUsuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla consolas
+-- AUTO_INCREMENT de la tabla `consolas`
 --
-ALTER TABLE consolas
-  MODIFY idConsola int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `consolas`
+  MODIFY `idConsola` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla juegos
+-- AUTO_INCREMENT de la tabla `juegos`
 --
-ALTER TABLE juegos
-  MODIFY idJuego int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `juegos`
+  MODIFY `idJuego` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT de la tabla usuarios
+-- AUTO_INCREMENT de la tabla `usuarios`
 --
-ALTER TABLE usuarios
-  MODIFY idUsuario int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `usuarios`
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla juegos
+-- Filtros para la tabla `juegos`
 --
-ALTER TABLE juegos
-  ADD CONSTRAINT juegos_ibfk_1 FOREIGN KEY (idConsola) REFERENCES consolas (idConsola);
+ALTER TABLE `juegos`
+  ADD CONSTRAINT `fk_idConsola` FOREIGN KEY (`idConsola`) REFERENCES `consolas` (`idConsola`) ON DELETE SET NULL ON UPDATE SET NULL,
+  ADD CONSTRAINT `juegos_ibfk_1` FOREIGN KEY (`idConsola`) REFERENCES `consolas` (`idConsola`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-CREATE USER 'daw2'@'%' IDENTIFIED BY 'daw2';
-
--- Otorga todos los privilegios al usuario 'daw2' en todas las bases de datos
-GRANT ALL PRIVILEGES ON *.* TO 'daw2'@'%' WITH GRANT OPTION;
-
-
--- Insertar algunas consolas de ejemplo
-INSERT INTO consolas (nombre, potenciaCPU, potenciaGPU, compania, precio, unidadesDisponibles) 
-VALUES 
-('PlayStation 5', 'AMD Zen 2', 'AMD RDNA 2', 'Sony', 499.99, 100),
-('Xbox Series X', 'AMD Zen 2', 'AMD RDNA 2', 'Microsoft', 499.99, 80),
-('Nintendo Switch', 'Custom NVIDIA Tegra', 'N/A', 'Nintendo', 299.99, 150);
-
-
--- Insertar algunos juegos de ejemplo
-INSERT INTO juegos (idConsola, nombreJuego, desarrolladora, genero, puntuacionMetacritic, precio, unidadesDisponibles) 
-VALUES 
-(1, 'Spider-Man: Miles Morales', 'Insomniac Games', 'Acción', 87, 49.99, 50),
-(1, 'Demon\'s Souls', 'Bluepoint Games', 'Aventura', 92, 69.99, 30),
-(2, 'Halo Infinite', '343 Industries', 'Disparos', 85, 59.99, 40),
-(3, 'The Legend of Zelda: Breath of the Wild', 'Nintendo', 'Aventura', 97, 59.99, 80);
-
-
--- Elimina el constraint existente
-ALTER TABLE juegos DROP FOREIGN KEY juegos_ibfk_1;
-
--- Añade un nuevo constraint con las opciones deseadas
-ALTER TABLE juegos
-ADD CONSTRAINT juegos_ibfk_1 
-FOREIGN KEY (idConsola) 
-REFERENCES consolas (idConsola)
-ON DELETE SET NULL
-ON UPDATE CASCADE;

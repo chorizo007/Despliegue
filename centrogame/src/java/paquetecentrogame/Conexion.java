@@ -94,14 +94,34 @@ public class Conexion {
         try {
             String consulta = "";
             if ("total-juegos".equals(tipo)) {
-                consulta = "SELECT * FROM juegos";
+                consulta = "SELECT j.nombreJuego, c.nombre AS nombreConsola, j.desarrolladora, j.genero, j.puntuacionMetacritic, j.precio, j.unidadesDisponibles " +
+                        "FROM juegos j " +
+                        "JOIN consolas c ON j.idConsola = c.idConsola;";
             } else if ("total".equals(tipo)) {
-                consulta = "SELECT * FROM juegos INNER JOIN consolas ON juegos.idConsola = consolas.idConsola";
+                consulta = "SELECT " +
+                        "j.nombreJuego, " +
+                        "c.nombre AS nombreConsola, " +
+                        "c.potenciaCPU, " +
+                        "c.potenciaGPU, " +
+                        "c.compania, " +
+                        "c.precio AS precioConsola, " +
+                        "c.unidadesDisponibles AS unidadesConsola, " +
+                        "j.desarrolladora, " +
+                        "j.genero, " +
+                        "j.puntuacionMetacritic, " +
+                        "j.precio AS precioJuego, " +
+                        "j.unidadesDisponibles AS unidadesJuego " +
+                        "FROM consolas c " +
+                        "JOIN juegos j ON c.idConsola = j.idConsola;";
             } else if ("consolas".equals(tipo)) {
-                consulta = "SELECT * FROM consolas";
+                consulta = "SELECT nombre, potenciaCPU, potenciaGPU, compania, precio, unidadesDisponibles FROM consolas";
             } else {
-                consulta = "SELECT * FROM juegos WHERE nombreJuego like '%" + tipo + "%'";
+                consulta = "SELECT j.nombreJuego, c.nombre AS nombreConsola, j.desarrolladora, j.genero, j.puntuacionMetacritic, j.precio, j.unidadesDisponibles " +
+                        "FROM juegos j " +
+                        "JOIN consolas c ON j.idConsola = c.idConsola " +
+                        "WHERE nombreJuego LIKE '%" + tipo + "%'";
             }
+
 
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
                 try (ResultSet resultado = preparedStatement.executeQuery()) {
@@ -144,11 +164,11 @@ public class Conexion {
         String delete = "";
 
         if (tipo.equals("consolas")) {
-            consulta = "SELECT unidadesDisponibles FROM consolas WHERE idConsola = ?";
-            delete = "UPDATE consolas set unidadesDisponibles = unidadesDisponibles - 1 WHERE idConsola=?";
+            consulta = "SELECT unidadesDisponibles FROM consolas WHERE nombre = ?";
+            delete = "UPDATE consolas set unidadesDisponibles = unidadesDisponibles - 1 WHERE nombre= ?";
         } else {
-            consulta = "SELECT unidadesDisponibles FROM juegos WHERE idJuego = ?";
-            delete = "UPDATE juegos set unidadesDisponibles = unidadesDisponibles -1 WHERE idJuego=?";
+            consulta = "SELECT unidadesDisponibles FROM juegos WHERE nombreJuego = ?";
+            delete = "UPDATE juegos set unidadesDisponibles = unidadesDisponibles -1 WHERE nombreJuego=?";
         }
 
         int cantidad = 0;

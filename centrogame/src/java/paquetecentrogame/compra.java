@@ -26,26 +26,26 @@ public class compra extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String botoadmin = "";
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("tipo") == null) {
+        if (session == null || session.getAttribute("tipo") == null) { //comprobar si esta logeado
             response.sendRedirect("login.jsp");
         }
-        if(session.getAttribute("tipo") == "admin"){
+        if(session.getAttribute("tipo") == "admin"){ //comprobar si es admin
             botoadmin = "<button><a href='admin.jsp'>administrador</a></button>";
         }
-        String volver = request.getParameter("botonvolver");
-        String tipo = request.getParameter("tipo");
-        String[] arrayboton = tipo.split(",");
+        String volver = request.getParameter("botonvolver"); //boton de volver 
+        String tipo = request.getParameter("tipo"); 
+        String[] arrayboton = tipo.split(","); //tabla + codigo
         Conexion miconexion = new Conexion();
         String resultado = "no se realizo nada";
         miconexion.Conectar();
         try {
             if (arrayboton.length == 2) {
-                resultado = miconexion.eliminar(arrayboton[0], arrayboton[1]);
+                resultado = miconexion.eliminar(arrayboton[0], arrayboton[1]); //-1 en ese producto
             } else {
                 resultado = "Error: Formato incorrecto de parámetros.";
             }
         } catch (SQLException e) {
-            resultado = "Error: " + e.getMessage();
+            resultado = "Error: " + e.getMessage(); //manejo de excepciones
         }
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");

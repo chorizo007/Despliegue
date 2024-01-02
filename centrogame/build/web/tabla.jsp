@@ -48,30 +48,29 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>tabla</title>
         <% 
-            String botoadmin = "";
+            String botoadmin = ""; //boton para admin
             session = request.getSession(false);
-            if (session == null || session.getAttribute("tipo") == null) {
+            if (session == null || session.getAttribute("tipo") == null) { //comprobar si esta logeado
                 response.sendRedirect("login.jsp");
             }
-            if(session.getAttribute("tipo") == "admin"){
+            if(session.getAttribute("tipo") == "admin"){ //comprobar si es admin
                 botoadmin = "<button><a href='admin.jsp'>administrador</a></button>";
             }
-            String tipodeconsulta = request.getParameter("consulta"); 
-            String juego = request.getParameter("juego");
-            String botonvolver = "consulta="+tipodeconsulta;
+            String tipodeconsulta = request.getParameter("consulta"); //recogo el tipo de consulta 
+            String juego = request.getParameter("juego"); //recogo el nombre del juego
+            String botonvolver = "consulta="+tipodeconsulta; // esto lo uso en compro.java para poder volver a esta pagina y tener la misma busqueda
             Conexion miconexion = new Conexion();
             miconexion.Conectar();
-            ResultSet resultado = null;
-            String tabla = "";
+            String tabla = ""; //tabla de los productos 
             
             if (juego != null) {
-                botonvolver+= "&juego="+juego;
+                botonvolver+= "&juego="+juego; // si es una busqueda de un juego, el boton volver necesita tambien este añadido
                 tipodeconsulta = juego;
             }
             if (tipodeconsulta.equals("consolas") || tipodeconsulta.equals("total-juegos") || tipodeconsulta.equals("total") || juego!=null) {
-                tabla = miconexion.total(tipodeconsulta);
+                tabla = miconexion.total(tipodeconsulta); 
             }else {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("index.jsp"); //si se intenta acceder con otro tipo de nombre... 
             }
             miconexion.desConectar();
         %>
