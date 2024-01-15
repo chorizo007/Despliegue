@@ -19,8 +19,8 @@ public class Conexion {
     public Conexion() {
         usuario = "daw2";
         passwordc = "1234";
-        //ruta ="jdbc:mysql://localhost:3306/centrogame"; //ruta en clase
-        ruta = "jdbc:mysql://192.168.1.144:3306/centrogame"; //ruta en mi casa
+        ruta ="jdbc:mysql://localhost:3306/centrogame"; //ruta en clase
+        //ruta = "jdbc:mysql://192.168.1.144:3306/centrogame"; //ruta en mi casa
     }
 
     public void Conectar() {
