@@ -104,8 +104,8 @@
 
                 } else {
                     respuesta =
-                        "<label for='idConsola'>ID de Consola:</label>" +
-                        "<input type='text' name='idConsola' id='idConsola'>" +
+                        "<label>Seleciona la Consola:</label>";
+                        respuesta += miconexion.selectconsolas() + 
                         "<br>" +
                         "<label for='nombreJuego'>Nombre del Juego:</label>" +
                         "<input type='text' name='nombreJuego' id='nombreJuego' required>" +

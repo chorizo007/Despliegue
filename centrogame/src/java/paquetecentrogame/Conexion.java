@@ -90,7 +90,6 @@ public class Conexion {
 
     public String total(String tipo, String consola) {
         String tabla = "<table>";
-        //que campos son los que tengo que enseñar ???? 
         try {
             String consulta = "";
             if ("total-juegos".equals(tipo)) {
@@ -315,7 +314,7 @@ public class Conexion {
             try (ResultSet resultado = preparedStatement.executeQuery()) {
                 int columnCount = resultado.getMetaData().getColumnCount();
                 if (columnCount > 0) {
-                    select += "<select name='consola'>"; 
+                    select += "<select name='idConsola'>";
                     while (resultado.next()) {
                         select += "<option value='" + resultado.getString(1) + "'>"+resultado.getString(2) +"</option>";
                     }

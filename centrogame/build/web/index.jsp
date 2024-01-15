@@ -71,7 +71,7 @@
             //añadir el input del juego o ir directamente a tabla.jsp para hacer la busqueda 
             String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
             String nombrejuego = request.getParameter("nombrejuego");
-            String consola = request.getParameter("consola");
+            String consola = request.getParameter("idConsola");
             if(nombrejuego!=null){
                 response.sendRedirect("tabla.jsp?juego=" + nombrejuego + "&consola=" + consola); 
             }
