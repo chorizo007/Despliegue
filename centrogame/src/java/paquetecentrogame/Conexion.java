@@ -19,8 +19,8 @@ public class Conexion {
     public Conexion() {
         usuario = "daw2";
         passwordc = "1234";
-        ruta ="jdbc:mysql://localhost:3306/centrogame"; //ruta en clase
-        //ruta = "jdbc:mysql://192.168.1.144:3306/centrogame"; //ruta en mi casa
+        //ruta ="jdbc:mysql://localhost:3306/centrogame"; //ruta en clase
+        ruta = "jdbc:mysql://192.168.1.144:3306/centrogame"; //ruta en mi casa
     }
 
     public void Conectar() {
@@ -88,7 +88,7 @@ public class Conexion {
     }
     
 
-    public String total(String tipo) {
+    public String total(String tipo, String consola) {
         String tabla = "<table>";
         //que campos son los que tengo que enseñar ???? 
         try {
@@ -119,9 +119,8 @@ public class Conexion {
                 consulta = "SELECT j.nombreJuego, c.nombre AS nombreConsola, j.desarrolladora, j.genero, j.puntuacionMetacritic, j.precio, j.unidadesDisponibles " +
                         "FROM juegos j " +
                         "JOIN consolas c ON j.idConsola = c.idConsola " +
-                        "WHERE nombreJuego LIKE '%" + tipo + "%'";
+                        "WHERE nombreJuego LIKE '%" + tipo + "%' AND c.idConsola = "+consola;
             }
-
 
             try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
                 try (ResultSet resultado = preparedStatement.executeQuery()) {
@@ -308,4 +307,27 @@ public class Conexion {
         }
     }
 
+
+    public String selectconsolas(){
+        String select = "";
+        String consulta = "select * from consolas";
+        try (PreparedStatement preparedStatement = this.miConexion.prepareStatement(consulta)) {
+            try (ResultSet resultado = preparedStatement.executeQuery()) {
+                int columnCount = resultado.getMetaData().getColumnCount();
+                if (columnCount > 0) {
+                    select += "<select name='consola'>"; 
+                    while (resultado.next()) {
+                        select += "<option value='" + resultado.getString(1) + "'>"+resultado.getString(2) +"</option>";
+                    }
+                } else {
+                    select = "No hay existencias";
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            select = "Error en la consulta: " + e.getMessage();
+        }
+        select += "</select>";
+        return select;
+    }
 }

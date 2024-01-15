@@ -1,4 +1,5 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="paquetecentrogame.Conexion"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -56,25 +57,34 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>centrogame</title>
         <% 
-            String botoadmin = "";
-            String inputjuego = "";
-            String selectjuego = "";
-            session = request.getSession(false);
-            if (session == null || session.getAttribute("tipo") == null) {
+            String botoadmin = ""; //string que contendra el codigo de html de acceso solo a los administradores
+            String inputjuego = ""; //si es es juego se añadara este input para poder escribirlo 
+            String selectjuego = ""; //para que cuando le de demos a enviar, este en el select la busqueda de juego
+            session = request.getSession(false); //con esto no iniciamos una sesion
+            if (session == null || session.getAttribute("tipo") == null) { //comprobacion de si esta logeado
                 response.sendRedirect("login.jsp");
             }
-            if(session.getAttribute("tipo") == "admin"){
+            if(session.getAttribute("tipo") == "admin"){ //comprobar si es admin
                 botoadmin = "<button><a href='admin.jsp'>administrador</a></button>";
             }
+
+            //añadir el input del juego o ir directamente a tabla.jsp para hacer la busqueda 
             String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
             String nombrejuego = request.getParameter("nombrejuego");
+            String consola = request.getParameter("consola");
             if(nombrejuego!=null){
-                response.sendRedirect("tabla.jsp?juego=" + nombrejuego);
+                response.sendRedirect("tabla.jsp?juego=" + nombrejuego + "&consola=" + consola); 
             }
             if (tipodeconsulta != null) {
                 if (tipodeconsulta.equals("juegos")) {
+                    Conexion miconexion = new Conexion();
+                    miconexion.Conectar();
                     inputjuego = "Inserte el nombre del juego a buscar <input name='nombrejuego'>";
                     selectjuego = "<option value='juegos' selected>buscar un juego</option>";
+                    inputjuego += "<br>";
+                    inputjuego += "<br>";
+                    inputjuego += "<label >Selecciona la consola del juego</label>";
+                    inputjuego += miconexion.selectconsolas();
                 } else {
                     response.sendRedirect("tabla.jsp?consulta=" + tipodeconsulta);
                 }
@@ -88,6 +98,7 @@
             <button><a href="cerrar">cerrar sesion</a></button>
         </nav>
         <br>
+
         <div class="busqueda">
             <div>
                 <div>

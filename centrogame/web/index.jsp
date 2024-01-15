@@ -1,4 +1,5 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
+<%@ page import="paquetecentrogame.Conexion"%> 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -70,13 +71,20 @@
             //añadir el input del juego o ir directamente a tabla.jsp para hacer la busqueda 
             String tipodeconsulta = request.getParameter("tipo-de-consulta"); 
             String nombrejuego = request.getParameter("nombrejuego");
+            String consola = request.getParameter("consola");
             if(nombrejuego!=null){
-                response.sendRedirect("tabla.jsp?juego=" + nombrejuego);
+                response.sendRedirect("tabla.jsp?juego=" + nombrejuego + "&consola=" + consola); 
             }
             if (tipodeconsulta != null) {
                 if (tipodeconsulta.equals("juegos")) {
+                    Conexion miconexion = new Conexion();
+                    miconexion.Conectar();
                     inputjuego = "Inserte el nombre del juego a buscar <input name='nombrejuego'>";
                     selectjuego = "<option value='juegos' selected>buscar un juego</option>";
+                    inputjuego += "<br>";
+                    inputjuego += "<br>";
+                    inputjuego += "<label >Selecciona la consola del juego</label>";
+                    inputjuego += miconexion.selectconsolas();
                 } else {
                     response.sendRedirect("tabla.jsp?consulta=" + tipodeconsulta);
                 }
@@ -90,6 +98,7 @@
             <button><a href="cerrar">cerrar sesion</a></button>
         </nav>
         <br>
+
         <div class="busqueda">
             <div>
                 <div>

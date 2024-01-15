@@ -58,17 +58,18 @@
             }
             String tipodeconsulta = request.getParameter("consulta"); //recogo el tipo de consulta 
             String juego = request.getParameter("juego"); //recogo el nombre del juego
+            String consola = request.getParameter("consola"); //recogo el nombre de la consola
             String botonvolver = "consulta="+tipodeconsulta; // esto lo uso en compro.java para poder volver a esta pagina y tener la misma busqueda
             Conexion miconexion = new Conexion();
             miconexion.Conectar();
             String tabla = ""; //tabla de los productos 
             
             if (juego != null) {
-                botonvolver+= "&juego="+juego; // si es una busqueda de un juego, el boton volver necesita tambien este añadido
+                botonvolver+= "&juego="+juego +"&consola="+consola; // si es una busqueda de un juego, el boton volver necesita tambien este añadido
                 tipodeconsulta = juego;
             }
             if (tipodeconsulta.equals("consolas") || tipodeconsulta.equals("total-juegos") || tipodeconsulta.equals("total") || juego!=null) {
-                tabla = miconexion.total(tipodeconsulta); 
+                tabla = miconexion.total(tipodeconsulta,consola); 
             }else {
                 response.sendRedirect("index.jsp"); //si se intenta acceder con otro tipo de nombre... 
             }
